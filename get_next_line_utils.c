@@ -6,10 +6,11 @@
 /*   By: jenicola <jean.nicolas-de-lamballerie@lea  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 16:07:59 by jenicola          #+#    #+#             */
-/*   Updated: 2025/11/25 16:09:29 by jenicola         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:55:03 by jenicola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -91,4 +92,30 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (pos);
 }
 
-
+void	cleanup_post_read(long index, t_reader *reader, char *ptr,
+		long bytes_read)
+{
+	if (!reader->ready)
+	{
+		if (reader->leftover)
+		{
+			ptr = process_leftovers(index, 1, reader);
+			reader->leftover = ptr;
+		}
+		else
+		{
+			if (bytes_read)
+			{
+				reader->has_leftover_position = 1;
+				reader->leftover_position = 0;
+			}
+		}
+	}
+	if (bytes_read == 0)
+	{
+		if (reader->leftover)
+			reader->line = reader->leftover;
+		reader->leftover = 0;
+		reader->ready = 1;
+	}
+}
