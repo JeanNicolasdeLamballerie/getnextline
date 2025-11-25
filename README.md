@@ -13,14 +13,15 @@ The way this works is basically by bouncing a reader struct around; the `reader`
 
 If we wanted to read bigger amounts we could re-implement this using malloc or calloc instead.
 
-This implementation does not handle binary files because it relies to some degree on string terminators to detect the end of phrases; but it would not be that difficult to move over by only processing based on bytes_read and handling the current char* values as more generic values that we only work on through lengths instead of also using string terminators.
+This implementation does not handle binary files because it relies to some degree on string terminators to detect the end of phrases; but it would not be that difficult to move over by only processing based on `bytes_read` and handling the current `char*` values as more generic values that we only work on through lengths instead of also using string terminators.
 
 # Instructions
 
 Call :
 
 ```c
-get_next_line(fd)```
+get_next_line(fd)
+```
 
 where fd is a [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) for either some `stdin` or some file. Get back a heap allocated string, or a `NULL` pointer if an allocation error occurred or there are no more lines to read.
 
